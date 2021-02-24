@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIF 채팅방</title>
+</head>
+<body>
+    <div>F12를 눌러 console 탭과 network 탭을 확인하세요</div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io.connect('http://localhost:8005', {
+            path: '/socket.io',
+        });
+        socket.on('news', (data) => {
+            console.log(data);
+            socket.emit('reply', 'Hello Node.js');
+        });
+    </script>
+</body>
+</html>
