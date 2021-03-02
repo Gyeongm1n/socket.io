@@ -4,7 +4,7 @@
   <h1>{{title}}</h1>
   <a href="/" id="exit-btn">방 나가기</a>
   <fieldset>
-    <legend>채팅 내용</legend>
+    <legend>채팅 내용<span id="user-count"></span></legend>
     <div id="chat-list">
       {% for chat in chats %}
         {% if chat.user === user %}
@@ -45,7 +45,13 @@
     const socket = io.connect('http://localhost:8005/chat', {
       path: '/socket.io',
     });
+    socket.on('connection', function (data) {
+      console.log('111111111111');
+    });
+    
     socket.on('join', function (data) {
+      console.log('join 실행');
+      document.querySelector('#user-count').textContent = `(${data.count}명)`;
       const div = document.createElement('div');
       div.classList.add('system');
       const chat = document.createElement('div');
@@ -54,6 +60,7 @@
       document.querySelector('#chat-list').appendChild(div);
     });
     socket.on('exit', function (data) {
+      document.querySelector('#user-count').textContent = `(${data.count}명)`;
       const div = document.createElement('div');
       div.classList.add('system');
       const chat = document.createElement('div');

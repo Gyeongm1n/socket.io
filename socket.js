@@ -25,15 +25,16 @@ module.exports = (server, app, sessionMiddleware) => {
         const roomId = referer
             .split('/')[referer.split('/').length - 1]
             .replace(/\?.+/, '');
-        console.log('pgm2', roomId);
-        socket.join(roomId);
-        console.log('pgm12', socket.adapter, socket.adapter.rooms.get(roomId).size);
+        //console.log('pgm2', roomId);
+        //console.log('pgm12', socket.adapter, socket.adapter.rooms.get(roomId).size);
        // console.log('pgm7', socket.handshake.headers.cookie, socket.handshake.session.color);
-        socket.to(roomId).emit('join', {
+        socket.join(roomId);
+        chat.to(roomId).emit('join', {
             user: 'system',
             chat: `${socket.handshake.session.color}님이 입장했습니다.`,
+            count: socket.adapter.rooms.get(roomId).size,
         });
-
+        
         socket.on('disconnect', () => {
             console.log('chat 네임스페이스 접속 해제');
             socket.leave(roomId);
@@ -58,6 +59,7 @@ module.exports = (server, app, sessionMiddleware) => {
                 socket.to(roomId).emit('exit', {
                     user: 'system',
                     chat: `${socket.handshake.session.color}님이 퇴장했습니다.`,
+                    count: socket.adapter.rooms.get(roomId).size,
                 });
             }
         });

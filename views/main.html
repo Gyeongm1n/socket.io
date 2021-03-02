@@ -35,6 +35,7 @@
   <div class="error-message">{{error}}</div>
   <a href="/room">채팅방 생성</a>
 </fieldset>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
   const socket = io.connect('http://localhost:8005/room', { // 네임스페이스
